@@ -1,0 +1,55 @@
+https://s3.amazonaws.com/mschwarzlogs/Logzio.zip
+
+Invoke-WebRequest -Uri "https://s3.amazonaws.com/mschwarzlogs/Logzio.zip" -OutFile "C:\Logzio.zip"
+
+Expand-Archive -LiteralPath C:\Logzio.Zip -DestinationPath C:\Logzio
+
+
+
+Invoke-WebRequest -Uri "https://s3.amazonaws.com/ppc-logz/Logzio.zip" -OutFile "C:\Logzio.zip"
+
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+function Unzip
+{
+    param([string]$zipfile, [string]$outpath)
+
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+}
+
+Unzip "C:\Logzio.zip" "C:\Logzio" 
+
+Invoke-Expression c:\Logzio\install-service-winlogbeat.ps1
+
+Start-Service winlogbeat
+
+
+
+Invoke-WebRequest -Uri "https://s3.amazonaws.com/ppc-logz/Filebeat.zip" -OutFile "C:\Filebeat.zip"
+
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+function Unzip
+{
+    param([string]$zipfile, [string]$outpath)
+
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+}
+
+Unzip "C:\Filebeat.zip" "C:\Filebeat" 
+
+Invoke-Expression c:\Filebeat\install-service-filebeat.ps1
+
+Start-Service filebeat
+
+Stop
+
+
+Start-Service winlogbeat
+
+Invoke-WebRequest -Uri "https://s3.amazonaws.com/mschwarzlogs/NXLog+config+file.txt" -OutFile "C:\"
+
+
+
+mkdir c:\nxlogtest
+
+
+msiexec /i "C:\nxlog-ce-2.9.1716.msi" /q

@@ -1,0 +1,38 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::aws-fafs-corp-ct",
+                "arn:aws:s3:::aws-fafs-corp-ct/*",
+                "arn:aws:s3:::prd-fafs-corp-s3",
+                "arn:aws:s3:::prd-fafs-corp-s3/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::aws-log-archive-fafs",
+                "arn:aws:s3:::aws-log-archive-fafs/*"
+            ]
+        },
+        {
+            "Sid": "Stmt1496766485683",
+            "Effect": "Allow",
+            "Action": [
+                "rds:DescribeDBLogFiles",
+                "rds:DownloadCompleteDBLogFile",
+                "rds:DownloadDBLogFilePortion"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
